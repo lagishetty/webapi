@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace trailweb
 {
-    class Book
-    {
         public class Book1
         {
             public object ID { get; set; }
@@ -16,6 +14,7 @@ namespace trailweb
             public string Image { get; set; }
             public string isbn { get; set; }
             public string SubTitle { get; set; }
+           
         }
 
         public class RootObject
@@ -24,7 +23,7 @@ namespace trailweb
             public double Time { get; set; }
             public string Total { get; set; }
             public int Page { get; set; }
-            public List<Book> Books { get; set; }
+            public List<Book1> Books { get; set; }
         }
-    }
+    
 }

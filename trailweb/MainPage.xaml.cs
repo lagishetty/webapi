@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,6 +17,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -39,6 +42,8 @@ namespace trailweb
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
+            
             // TODO: Prepare page for display here.
 
             // TODO: If your application contains multiple pages, ensure that you are
@@ -50,14 +55,15 @@ namespace trailweb
 
         private async void  search_btn_Click(object sender, RoutedEventArgs e)
         {
+           
+
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
                     pgbar.Visibility = Visibility.Visible;
-                    client.BaseAddress = new Uri("http://it-ebooks-api.info/v1/");
 
-                    var uri = "http://it-ebooks-api.info/v1//search/{query}";
+                    var uri = "http://it-ebooks-api.info/v1/search/{0}";
 
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -65,8 +71,11 @@ namespace trailweb
                     if (response.IsSuccessStatusCode)
                     {
                         var data = response.Content.ReadAsStringAsync();
-                        var listdata = JsonConvert.DeserializeObject<Book>(data.Result.ToString());
-                        lv1.DataContext = listdata;
+                        var listdata = JsonConvert.DeserializeObject<RootObject>(data.Result);
+                       
+                        if (listdata != null && listdata.Books != null && listdata.Books.Count > 0)
+                        lv1.ItemsSource = listdata.Books;
+                       
 
                     }
                     else
@@ -85,6 +94,14 @@ namespace trailweb
                 var msg = new MessageDialog("Error" + ex).ShowAsync();
                 pgbar.Visibility = Visibility.Collapsed;
             }
+        }
+
+       
+        private void lv1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            lv1.SelectedItem = sender;
+            this.Frame.Navigate(typeof(BlankPage1),lv1.SelectedItem);
         }
     }
 }

@@ -43,6 +43,9 @@ namespace trailweb
         /// search results, and so forth.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
+        /// 
+
+        
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG

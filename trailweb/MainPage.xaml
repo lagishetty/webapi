@@ -11,14 +11,18 @@
     <Grid>
         <TextBox x:Name="tb1" HorizontalAlignment="Left" Margin="31,62,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="212"/>
         <Button x:Name="search_btn" Content="Search" HorizontalAlignment="Left" Margin="267,53,0,0" VerticalAlignment="Top" Click="search_btn_Click"/>
-        <ListView x:Name="lv1" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="345" Margin="31,208,0,0" VerticalAlignment="Top" Width="345">
+        <ListView x:Name="lv1" HorizontalAlignment="Left" Height="345" Margin="31,208,0,0" VerticalAlignment="Top" Width="345" SelectionChanged="lv1_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel x:Name="data_sp">
-                        <Image x:Name="img_book" Source="{Binding Book1.Image}" ></Image>
-                        <TextBlock x:Name="label_book" Text="{Binding Book1[0].Title}"></TextBlock>
-                        <TextBlock x:Name="desc_book" Text="{Binding Book1[0].Description}"> </TextBlock>
+                    <Border BorderBrush="White">
+                    <StackPanel x:Name="data_sp" Orientation="Horizontal">
+                        <Image x:Name="img_book" Source="{Binding Image}" ></Image>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="label_book" Text="{Binding Title}"></TextBlock>
+                            <TextBlock x:Name="desc_book" Text="{Binding Description}"></TextBlock>
+                        </StackPanel>
                     </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
