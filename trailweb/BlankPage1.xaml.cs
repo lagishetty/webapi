@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -43,15 +45,29 @@ namespace trailweb
 
             lv1.Items.Add(str);
 
-
+                        
         }
+
 
         private async void download_btn_Click(object sender, RoutedEventArgs e)
         {
-            var uri = "http://it-ebooks-api.info/v1/book/{0}";
+            using (HttpClient client = new HttpClient())
+            {
 
-            await Launcher.LaunchUriAsync(new Uri(uri));
-        } 
+                var uri = "http://it-ebooks-api.info/v1/book?q=";
+
+                //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                string data=await client.GetStringAsync(new Uri(uri));
+
+                ListData dt=JsonConvert.DeserializeObject<ListData>(data);
+
+                
+            }
+            //await Launcher.LaunchUriAsync(new Uri(uri));
+        }
+
+       
         
                     
 

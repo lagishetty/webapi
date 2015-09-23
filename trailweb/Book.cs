@@ -17,6 +17,7 @@ namespace trailweb
            
         }
 
+
         public class RootObject
         {
             public string Error { get; set; }
@@ -24,6 +25,7 @@ namespace trailweb
             public string Total { get; set; }
             public int Page { get; set; }
             public List<Book1> Books { get; set; }
+
         }
     
 }
