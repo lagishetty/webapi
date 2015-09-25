@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace trailweb
 {
-        public class Book1
+        public class Book
         {
             public object ID { get; set; }
             public string Title { get; set; }
@@ -24,7 +24,7 @@ namespace trailweb
             public double Time { get; set; }
             public string Total { get; set; }
             public int Page { get; set; }
-            public List<Book1> Books { get; set; }
+            public List<Book> Books { get; set; }
 
         }
     

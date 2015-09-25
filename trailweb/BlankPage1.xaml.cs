@@ -40,7 +40,7 @@ namespace trailweb
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         /// 
-       // private ListData bookDetails;
+      // private ListData bookDetails;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var str = e.Parameter as object;

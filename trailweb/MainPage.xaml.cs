@@ -99,6 +99,9 @@ namespace trailweb
         {
 
             lv1.SelectedItem = sender;
+            
+            //Book book = lv1.SelectedItem as Book;
+            
             this.Frame.Navigate(typeof(BlankPage1),lv1.SelectedItem);
         }
     }
