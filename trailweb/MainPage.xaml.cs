@@ -75,8 +75,6 @@ namespace trailweb
                        
                         if (listdata != null && listdata.Books != null && listdata.Books.Count > 0)
                         lv1.ItemsSource = listdata.Books;
-                       
-
                     }
                     else
                     {
