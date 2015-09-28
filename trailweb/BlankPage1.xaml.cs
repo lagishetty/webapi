@@ -40,52 +40,58 @@ namespace trailweb
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
         /// 
-      // private ListData bookDetails;
+
+        private dynamic books;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var str = e.Parameter as object;
-           // bookDetails = e.Parameter as ListData;
-
             lv1.Items.Add(str);
 
+            books = e.Parameter;
 
         }
 
 
-        private async void download_btn_Click(object sender, RoutedEventArgs e)
+        private async  void download_btn_Click(object sender, RoutedEventArgs e)
         {
-            string downloadurl = string.Empty;
-            using (HttpClient client = new HttpClient())
-            {
-                string result = await GetResult("http://it-ebooks-api.info/v1/book{0}");
-                ListData bookDetails = JsonConvert.DeserializeObject<ListData>(result);
-                if (bookDetails != null)
-                    downloadurl = bookDetails.Download;
-            }
-            await Launcher.LaunchUriAsync(new Uri(downloadurl));
+            var id = books.ID;
+
+            var uri = "http://it-ebooks-api.info/v1/book/" + id;
+            await Launcher.LaunchUriAsync(new Uri(uri));
+
+
+        //    string downloadurl = string.Empty;
+        //    using (HttpClient client = new HttpClient())
+        //    {
+                
+        //        string result = await GetResult("http://it-ebooks-api.info/v1/book/{book_id}");
+        //        ListData bookDetails = JsonConvert.DeserializeObject<ListData>(result);
+        //        if (bookDetails != null)
+        //            downloadurl = bookDetails.Download;
+        //    }
+        //    await Launcher.LaunchUriAsync(new Uri(downloadurl));
         }
-        private async Task<string> GetResult(string url)
-        {
-            string response1 = string.Empty;
-            using (HttpClient client = new HttpClient())
-            {
+        //private async Task<string> GetResult(string url)
+        //{
+        //    string response1 = string.Empty;
+        //    using (HttpClient client = new HttpClient())
+        //    {
 
-                var uri = "http://it-ebooks-api.info/v1/search/{0}";
+        //        var uri = "http://it-ebooks-api.info/v1/search/{0}";
 
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        //        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                HttpResponseMessage response = await client.GetAsync(uri);
-                if (response.IsSuccessStatusCode)
-                {
-                    var data = response.Content.ReadAsStringAsync();
-                    
-                    var listdata = JsonConvert.DeserializeObject<RootObject>(data.Result);
+        //        HttpResponseMessage response = await client.GetAsync(uri);
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            response1 = await response.Content.ReadAsStringAsync();                    
+        //            var listdata = JsonConvert.DeserializeObject<RootObject>(response1);
 
-                }
+        //        }
                  
-            }
-            return response1;
-        }
+        //    }
+        //    return response1;
+        //}
     }
 }
 

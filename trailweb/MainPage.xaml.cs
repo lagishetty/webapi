@@ -98,11 +98,9 @@ namespace trailweb
         private void lv1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            lv1.SelectedItem = sender;
-            
-            //Book book = lv1.SelectedItem as Book;
-            
-            this.Frame.Navigate(typeof(BlankPage1),lv1.SelectedItem);
+           
+            lv1.SelectedItem = sender; 
+            this.Frame.Navigate(typeof(BlankPage1), lv1.SelectedItem);
         }
     }
 }
