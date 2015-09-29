@@ -49,6 +49,7 @@ namespace trailweb
             List<DownloadList> mylist = await con.QueryAsync<DownloadList>("select * from DownloadList");
             if (mylist.Count != 0)
             {
+            
                 lv2.ItemsSource = mylist;
                 lv2.DisplayMemberPath = "Mylist";
             }
@@ -65,8 +66,8 @@ namespace trailweb
 
         private async void  search_btn_Click(object sender, RoutedEventArgs e)
         {
-           
 
+            lv2.Visibility = Visibility.Collapsed;
             try
             {
                 using (HttpClient client = new HttpClient())

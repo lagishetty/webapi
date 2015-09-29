@@ -53,7 +53,7 @@ namespace trailweb
 
             var str = e.Parameter as object;
 
-            lv1.Items.Add(str); //Through parameter passing I can display the book details
+            lv1.Items.Add(str); 
 
             books = e.Parameter; 
 

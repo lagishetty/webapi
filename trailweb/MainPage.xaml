@@ -16,6 +16,7 @@
                 <DataTemplate>
                     <Border BorderBrush="White">
                         <StackPanel x:Name="data_sp" Orientation="Horizontal">
+
                             <Image x:Name="img_book" Source="{Binding Image}" ></Image>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock x:Name="label_book" Text="{Binding Title}"></TextBlock>
@@ -29,7 +30,8 @@
         </ListView>
 
         <ProgressBar x:Name="pgbar" IsIndeterminate="True" HorizontalAlignment="Left" Height="14" Margin="31,135,0,0" VerticalAlignment="Top" Width="345" Visibility="Collapsed"/>
-        <ListView x:Name="lv2" HorizontalAlignment="Left" Height="376" Margin="31,177,0,0" VerticalAlignment="Top" Width="345"/>
+        <ListView x:Name="lv2" HorizontalAlignment="Left" Height="380" Margin="31,187,0,0" VerticalAlignment="Top" Width="345"/>
+
 
     </Grid>
 </Page>
