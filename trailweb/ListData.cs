@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace trailweb
 {
-    class ListData
+    public class ListData
     {
         public string Error { get; set; }
         public double Time { get; set; }
@@ -21,6 +21,13 @@ namespace trailweb
         public string Publisher { get; set; }
         public string Image { get; set; }
         public string Download { get; set; }
+
+    }
+
+    public class RootObject1
+    {
+        
+        public List<ListData> ff  { get; set; }
 
     }
    

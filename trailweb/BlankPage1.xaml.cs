@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -42,56 +44,49 @@ namespace trailweb
         /// 
 
         private dynamic books;
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var str = e.Parameter as object;
-            lv1.Items.Add(str);
+            var dbpath = ApplicationData.Current.LocalFolder.Path + "/ebook.db";
+            var con = new SQLiteAsyncConnection(dbpath);
 
-            books = e.Parameter;
+            await con.CreateTableAsync<DownloadList>();
+
+            var str = e.Parameter as object;
+
+            lv1.Items.Add(str); //Through parameter passing I can display the book details
+
+            books = e.Parameter; 
 
         }
 
 
         private async  void download_btn_Click(object sender, RoutedEventArgs e)
         {
+            var dbpath = ApplicationData.Current.LocalFolder.Path + "/ebook.db";
+            var con = new SQLiteAsyncConnection(dbpath);
+
+
             var id = books.ID;
 
             var uri = "http://it-ebooks-api.info/v1/book/" + id;
-            await Launcher.LaunchUriAsync(new Uri(uri));
+            HttpClient client = new HttpClient();
+             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
+                    HttpResponseMessage response = await client.GetAsync(uri);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var data = response.Content.ReadAsStringAsync();
+                        var listdata = JsonConvert.DeserializeObject<ListData>(data.Result);
 
-        //    string downloadurl = string.Empty;
-        //    using (HttpClient client = new HttpClient())
-        //    {
-                
-        //        string result = await GetResult("http://it-ebooks-api.info/v1/book/{book_id}");
-        //        ListData bookDetails = JsonConvert.DeserializeObject<ListData>(result);
-        //        if (bookDetails != null)
-        //            downloadurl = bookDetails.Download;
-        //    }
-        //    await Launcher.LaunchUriAsync(new Uri(downloadurl));
+                        var file_down = listdata.Download;
+                        await Launcher.LaunchUriAsync(new Uri(file_down));
+                    }
+                    DownloadList dl = new DownloadList();
+                    dl.Mylist = books.Title;
+                    await con.InsertAsync(dl);
+
         }
-        //private async Task<string> GetResult(string url)
-        //{
-        //    string response1 = string.Empty;
-        //    using (HttpClient client = new HttpClient())
-        //    {
-
-        //        var uri = "http://it-ebooks-api.info/v1/search/{0}";
-
-        //        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-        //        HttpResponseMessage response = await client.GetAsync(uri);
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            response1 = await response.Content.ReadAsStringAsync();                    
-        //            var listdata = JsonConvert.DeserializeObject<RootObject>(response1);
-
-        //        }
-                 
-        //    }
-        //    return response1;
-        //}
+        
     }
 }
 

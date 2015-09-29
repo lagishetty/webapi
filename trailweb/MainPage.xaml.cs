@@ -40,8 +40,18 @@ namespace trailweb
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
+            var dbpath = ApplicationData.Current.LocalFolder.Path + "/ebook.db";
+            var con = new SQLiteAsyncConnection(dbpath);
+
+            lv2.ItemsSource = new List<DownloadList>();
+            List<DownloadList> mylist = await con.QueryAsync<DownloadList>("select * from DownloadList");
+            if (mylist.Count != 0)
+            {
+                lv2.ItemsSource = mylist;
+                lv2.DisplayMemberPath = "Mylist";
+            }
             
             
             // TODO: Prepare page for display here.
@@ -73,7 +83,7 @@ namespace trailweb
                         var data = response.Content.ReadAsStringAsync();
                         var listdata = JsonConvert.DeserializeObject<RootObject>(data.Result);
                        
-                        if (listdata != null && listdata.Books != null && listdata.Books.Count > 0)
+                        //if (listdata != null && listdata.Books != null && listdata.Books.Count > 0)
                         lv1.ItemsSource = listdata.Books;
                     }
                     else
@@ -99,7 +109,7 @@ namespace trailweb
         {
 
            
-            lv1.SelectedItem = sender; 
+            lv1.SelectedItem = sender; //The selected item binded to listview
             this.Frame.Navigate(typeof(BlankPage1), lv1.SelectedItem);
         }
     }
