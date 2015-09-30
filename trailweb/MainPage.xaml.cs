@@ -44,15 +44,24 @@ namespace trailweb
         {
             var dbpath = ApplicationData.Current.LocalFolder.Path + "/ebook.db";
             var con = new SQLiteAsyncConnection(dbpath);
-
-            lv2.ItemsSource = new List<DownloadList>();
-            List<DownloadList> mylist = await con.QueryAsync<DownloadList>("select * from DownloadList");
-            if (mylist.Count != 0)
+            await con.CreateTableAsync<DownloadList>();
+            try
             {
-            
-                lv2.ItemsSource = mylist;
-                lv2.DisplayMemberPath = "Mylist";
+                lv2.ItemsSource = new List<DownloadList>();
+                List<DownloadList> mylist = await con.QueryAsync<DownloadList>("select * from DownloadList");
+                if (mylist.Count != 0)
+                {
+
+                    lv2.ItemsSource = mylist;
+                    lv2.DisplayMemberPath = "Mylist";
+                }
             }
+            catch(Exception ex)
+            {
+                var messagedialog = new MessageDialog("Unsuccessful"+ex).ShowAsync();
+            }
+
+            
             
             
             // TODO: Prepare page for display here.
