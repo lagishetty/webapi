@@ -50,18 +50,18 @@ namespace trailweb
 
             m.Name = text_reg.Text;
             m.Password = text_password.Password;
-            string rd = "";
+            string r = "";
             if (radio_male.IsChecked == true)
             {
-                rd = "Male";
+                r = "Male";
 
             }
             else
             {
-                rd = "Female";
+                r = "Female";
 
             }
-            m.Gender = rd;
+            m.Gender = r;
             m.State = ((ComboBoxItem)combo_box.SelectedItem).Content.ToString();
 
 
