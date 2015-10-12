@@ -77,7 +77,7 @@ namespace trailweb
             data.Values["check"] = text_reg.Text;
             var dbpath = ApplicationData.Current.LocalFolder.Path + "/ebook.db";
             var con = new SQLiteAsyncConnection(dbpath);
-
+           
             Register t = new Register();
             string query = string.Format("select Name,Password from Register where Name='{0}' and Password='{1}'", text_user.Text, text_pass.Password);
             List<Register> mylist = await con.QueryAsync<Register>(query);

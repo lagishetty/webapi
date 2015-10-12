@@ -31,9 +31,11 @@ namespace trailweb
     /// </summary>
     public sealed partial class BlankPage1 : Page
     {
+        Register r = new Register();
         public BlankPage1()
         {
             this.InitializeComponent();
+           
         }
 
         /// <summary>
@@ -64,7 +66,7 @@ namespace trailweb
         {
             var dbpath = ApplicationData.Current.LocalFolder.Path + "/ebook.db";
             var con = new SQLiteAsyncConnection(dbpath);
-
+            
 
             var id = books.ID;
 
@@ -81,9 +83,11 @@ namespace trailweb
                         var file_down = listdata.Download;
                         await Launcher.LaunchUriAsync(new Uri(file_down));
                     }
-                    DownloadList dl = new DownloadList();
-                    dl.Mylist = books.Title;
-                    await con.InsertAsync(dl);
+            DownloadList dl = new DownloadList();
+            dl.Mylist = books.Title;
+            
+            await con.InsertAsync(dl);
+           
 
         }
         
